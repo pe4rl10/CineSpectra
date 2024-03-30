@@ -16,8 +16,9 @@ import Genres from "../genres/Genres";
 import "./style.scss";
 
 const Carousel = ({data, loading, endpoint, title}) => {
+    // console.log(data);
     const carouselContainer = useRef();
-    const {url} = useSelector((state) => state.home)
+    const {url} = useSelector((state) => state.home.homeSlice);
     const navigate = useNavigate();
 
     const navigation = (dir) => {
@@ -73,7 +74,7 @@ const Carousel = ({data, loading, endpoint, title}) => {
                                         <Img src={posterUrl}/>
                                         <CircleRating 
                                         rating={item.vote_average.toFixed(1)}/>
-                                        <Genres data={item.genre_ids.slice(0, 2)}/>
+                                        <Genres data={item.genre_ids?.slice(0, 2)}/>
                                     </div>
                                     <div className="textBlock">
                                         <span className="title">

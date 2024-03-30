@@ -31,7 +31,7 @@ const Footer = () => {
                 </div>
                 <div className="socialIcons">
                     <span className="icon">
-                        <FaFacebookF />
+                        <FaFacebookF onClick={() => console.log("CLicked")}/>
                     </span>
                     <span className="icon">
                         <FaInstagram />

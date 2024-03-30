@@ -22,7 +22,10 @@
     "react-player": "^2.11.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.6.2",
-    "react-select": "^5.7.0",
+    "react-select": "^5.8.0",
+    "react-window": "^1.8.10",
+    "redux": "^5.0.1",
+    "redux-thunk": "^3.1.0",
     "sass": "^1.57.1"
   },
   "devDependencies": {

@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
+import auth from '../reducers/auth'
 
 export const homeSlice = createSlice({
   name: 'home',
   initialState: {
     url: {},
-    genres: {}
+    genres: {},
   },
   reducers: {
     getApiConfiguration: (state, action) => {
@@ -12,8 +13,9 @@ export const homeSlice = createSlice({
     },
     getGenres: (state, action) => {
         state.genres = action.payload;
-    }
+    },
   },
+
 })
 
 // Action creators are generated for each case reducer function

@@ -1,15 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import { HiOutlineSearch } from "react-icons/hi";
 import { SlMenu } from "react-icons/sl";
 import { VscChromeClose } from "react-icons/vsc";
 import { useNavigate, useLocation } from "react-router-dom";
+import { connect } from "react-redux";
+import { logout } from "../../actions/auth";
 
 import "./style.scss";
  
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import logo from "../../assets/movix-logo.svg";
 
-const Header = () => {
+
+const Header = ({ logout, isAuthenticated }) => {
     const [show, setShow] = useState("top");
     const [lastScrollY, setLastScrollY] = useState(0);
     const [mobileMenu, setMobileMenu] = useState(false);
@@ -17,6 +20,21 @@ const Header = () => {
     const [showSearch, setShowSearch] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
+
+    const guestLinks = () => (
+      <Fragment>
+        <li className="menuItem" onClick={() => navigationHandler("login")}>Login</li>
+        <li className="menuItem" onClick={() => navigationHandler("signup")}>Sign Up</li>
+      </Fragment>
+    );
+
+    const authLinks = () => (
+      <Fragment>
+        <li className="menuItem" onClick={() => navigationHandler("history")}>History</li>
+        <li className="menuItem" onClick={() => navigationHandler("logout")}>Logout</li>
+
+      </Fragment>
+    );
 
     useEffect(() => {
       window.scrollTo(0, 0);
@@ -64,8 +82,22 @@ const Header = () => {
     const navigationHandler = (type) => {
       if(type === "movie"){
         navigate("/explore/movie");
-      } else {
+      } 
+      else if(type === "tv"){
         navigate("/explore/tv");
+      }
+      else if(type === "login"){
+          navigate("/login");
+      }
+      else if(type === "signup"){
+        navigate("/signup");
+      }
+      else if(type === "history"){
+        navigate("/history");
+      }
+      else{
+        logout();
+        navigate("/");
       }
       setMobileMenu(false);
     }
@@ -78,6 +110,7 @@ const Header = () => {
             <ul className="menuItems">
               <li className="menuItem" onClick={() => navigationHandler("movie")}>Movies</li>
               <li className="menuItem" onClick={() => navigationHandler("tv")}>TV Shows</li>
+              {isAuthenticated ? authLinks() : guestLinks()}
               <li className="menuItem">
                 <HiOutlineSearch onClick={openSearch}/>
               </li>
@@ -103,4 +136,8 @@ const Header = () => {
     );
 };
 
-export default Header;
+const mapStateToProps = state => ({
+  isAuthenticated: state.home.authReducer.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps, { logout })(Header);

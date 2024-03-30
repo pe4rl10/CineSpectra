@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 const Cast = ({ data, loading }) => {
     const castContainer = useRef();
-    const { url } = useSelector((state) => state.home);
+    const { url } = useSelector((state) => state.home.homeSlice);
     const navigate = useNavigate();
 
     const skeleton = () => {

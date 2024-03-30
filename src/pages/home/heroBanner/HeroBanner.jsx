@@ -5,13 +5,14 @@ import { useSelector} from "react-redux";
 import useFetch from '../../../hooks/useFetch';
 import Img from '../../../components/lazyLoadImage/Img';
 import ContentWrapper from '../../../components/contentWrapper/ContentWrapper';
+import MovieSelect from '../../../components/movieSelect/MovieSelect';
 
 const HeroBanner = () => {
     const [background, setBackground] = useState("");
     const [query, setQuery] = useState("");
     const navigate = useNavigate();
 
-    const {url} = useSelector((state) => state.home);
+    const {url} = useSelector((state) => state.home.homeSlice);
 
     const {data, loading} = useFetch("/movie/upcoming");
 
@@ -37,13 +38,14 @@ const HeroBanner = () => {
                     <span className="title">Welcome.</span>
                     <span className="subTitle">Millions of movies, TV Shows and people to discover. 
                         Explore now.</span>
-                    <div className="searchInput">
+                    {/* <div className="searchInput">
                         <input type='text' 
                         placeholder='Search for a movie or tv show...'
                         onKeyUp={searchQueryHandler}
                         onChange={(e) => setQuery(e.target.value)}/>
-                        <button>Search</button>
-                    </div>
+                        <button onClick={() => navigate(`/search/${query}`)}>Search</button>
+                    </div> */}
+                    <MovieSelect maxHeight={200}/>
                 </div>
             </ContentWrapper>
         </div>

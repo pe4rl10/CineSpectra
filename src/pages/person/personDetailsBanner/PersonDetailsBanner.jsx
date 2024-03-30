@@ -15,7 +15,7 @@ import Genres from '../../../components/genres/Genres';
 const PersonDetailsBanner = ({profile_path}) => {
     const { id } = useParams();
     const {data, loading} = useFetch(`/person/${id}`);
-    const { url } = useSelector((state) => state.home);
+    const { url } = useSelector((state) => state.home.homeSlice);
     // const { movie_credits, loading_credits_movie} = useFetch(`/person/${id}/movie_credits`);
     // const { tv_credits, loading_credits_tv} = useFetch(`/person/${id}/tv_credits`);
     //const known_for = data?.known_for_department;

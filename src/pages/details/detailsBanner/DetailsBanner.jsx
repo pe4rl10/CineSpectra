@@ -20,10 +20,10 @@ const DetailsBanner = ({ video, crew }) => {
     const { mediaType, id } = useParams();
     const {data, loading} = useFetch(`/${mediaType}/${id}`);
     
-    const {url} = useSelector((state) => state.home);
+    const {url} = useSelector((state) => state.home.homeSlice);
 
     const _genres = data?.genres.map((g) => g.id);
-
+    
     const director = crew?.filter?.((f) => f.job === "Director");
     const writer = crew?.filter?.((f) => f.job === "Screenplay" || f.job === "Story" || f.job === "Writer")
 

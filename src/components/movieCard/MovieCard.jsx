@@ -10,7 +10,7 @@ import Genres from "../genres/Genres";
 import PosterFallback from "../../assets/no-poster.png";
 
 const MovieCard = ({ data, fromSearch, mediaType }) => {
-    const { url } = useSelector((state) => state.home);
+    const { url } = useSelector((state) => state.home.homeSlice);
     const navigate = useNavigate();
     const posterUrl = data.poster_path
         ? url.poster + data.poster_path

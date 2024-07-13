@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getMovieRecommendations } from '../../utils/combineApiData';
 import Spinner from '../../components/spinner/Spinner';
 import ContentWrapper from '../../components/contentWrapper/ContentWrapper';
@@ -9,6 +9,7 @@ import { fetchDataFromDjango, postDataIntoDjango } from '../../utils/api';
 import { useSelector } from 'react-redux';
 
 const RecommendedMovies = () => {
+    const navigate = useNavigate();
     const { id }= useParams();
     const[dataApi, setDataApi] = useState(null);
     const[loading, setLoading] = useState(true);
@@ -20,7 +21,11 @@ const RecommendedMovies = () => {
             try {
                 setLoading(true);
                 const movieDetails = await getMovieRecommendations(id);
+                if(movieDetails.length === 0){
+                    navigate('/subscribe/');
+                }
                 setDataApi(movieDetails);
+                console.log(movieDetails);
                 setLoading(false);
                 console.log(dataApi); // Make sure 'dataApi' is defined in your component
             } catch (error) {
@@ -36,7 +41,7 @@ const RecommendedMovies = () => {
         const checkForAlreadyAvailableHistory = async () => {
             try{
                 const history = await fetchDataFromDjango(`/history/get-history/${user.id}/`);
-                console.log(id);
+                // console.log(history);
                 
                 // console.log(hasDuplicates(history, id, mediaType.toString()));
                 if(!hasDuplicates(history, id, 'movie')){

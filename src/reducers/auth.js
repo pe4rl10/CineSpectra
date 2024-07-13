@@ -20,8 +20,8 @@ const initialState = {
     access: localStorage.getItem('access'),
     refresh: localStorage.getItem('refresh'),
     isAuthenticated: null,
-    user: null
-
+    user: null,
+    loginError: null // Added loginError
 };
 
 export default function(state = initialState, action) {
@@ -31,7 +31,8 @@ export default function(state = initialState, action) {
         case AUTHENTICATED_SUCCESS:
             return{
                 ...state,
-                isAuthenticated: true
+                isAuthenticated: true,
+                loginError: null // Reset loginError
             }
 
         case LOGIN_SUCCESS:
@@ -42,32 +43,32 @@ export default function(state = initialState, action) {
                 isAuthenticated: true,
                 access: payload.access,
                 refresh: payload.refresh,
+                loginError: null // Reset loginError
             }
 
         case SIGNUP_SUCCESS:
             return{
                 ...state,
-                isAuthenticated: false
+                isAuthenticated: false,
+                loginError: null // Reset loginError
             }
         case USER_LOADED_SUCCESS:
             return{
                 ...state,
-                user: payload
+                user: payload,
+                loginError: null // Reset loginError
             }
         
         case AUTHENTICATED_FAIL:
-            return{
-                ...state,
-                isAuthenticated: false
-            }
-        
         case USER_LOADED_FAIL:
+        case LOGIN_FAIL:
+            console.log("login failed");
             return{
                 ...state,
-                user: null
+                isAuthenticated: false,
+                loginError: payload // Set loginError
             }
 
-        case LOGIN_FAIL:
         case SIGNUP_FAIL:
         case LOGOUT:
             localStorage.removeItem('access');
@@ -77,7 +78,8 @@ export default function(state = initialState, action) {
                 access: null,
                 refresh: null,
                 isAuthenticated: false,
-                user: null
+                user: null,
+                loginError: null // Reset loginError
             }
 
         case PASSWORD_RESET_SUCCESS:
@@ -87,7 +89,8 @@ export default function(state = initialState, action) {
         case ACTIVATION_SUCCESS:
         case ACTIVATION_FAIL:
             return {
-                ...state
+                ...state,
+                loginError: null // Reset loginError
             }
         default: 
             return state

@@ -26,6 +26,8 @@ import Person from './pages/person/Person';
 import PersonDetailsBanner from './pages/person/personDetailsBanner/PersonDetailsBanner';
 import RecommendedMovies from './pages/recommendedmovies/RecommendedMovies';
 import History from './pages/history/History';
+import ForYou from './pages/foryou/ForYou';
+import Subscription from './pages/subscription/Subscription';
 
 function App(props) { 
     const dispatch = useDispatch();
@@ -75,7 +77,7 @@ function App(props) {
             <Route path="/" element={<Home/>}/>
             <Route path='/search/:query' element={<SearchResult/>}/>
             <Route path='explore/:mediaType' element={<Explore/>}/>
-            <Route path='/recommend-movies/:id' element={<RecommendedMovies/>}/>
+            <Route path='*' element={<PageNotFound/>}/>
             <Route element={<PublicRoutes />}>
                 <Route exact path='/login' element={<Login/>} />
                 <Route exact path='/signup' element={<Signup/>} />
@@ -85,12 +87,14 @@ function App(props) {
                 {/* <Route exact path='/facebook' element={<Facebook} />
                 <Route exact path='/google' element={<Google} /> */}
                 
-                <Route path='*' element={<PageNotFound/>}/>
             </Route>
             <Route element={<PrivateRoutes/>}>
+                <Route path='/recommend-movies/:id' element={<RecommendedMovies/>}/>
                 <Route path='/:mediaType/:id' element={<Details/>}/>
                 <Route path='/person/:id' element={<Person/>}/>
                 <Route path='/history/' element={<History/>}/>
+                <Route path='/for-you/' element={<ForYou/>}/>
+                <Route path='/subscribe/' element={<Subscription/>}/>
                 {/* <Route path='/recommend-movies/:id' element={<RecommendedMovies/>}/> */}
             </Route>
         </Routes>

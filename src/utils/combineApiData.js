@@ -1,15 +1,18 @@
 import useFetchDjango from "../hooks/useFetchDjango";
 import useFetch from "../hooks/useFetch";
-import { fetchDataFromApi, fetchDataFromDjango } from "./api";
+import { fetchDataFromApi, fetchDataFromDjango, fetchDataFromDjangoAuthenticated, postDataIntoDjango } from "./api";
 import axios, { AxiosError } from "axios";
 
 export async function getMovieRecommendations(movie_id) {
     try {
         let data = [];
-        const movie_ids = await fetchDataFromDjango(`/movies/recommend-movie/${movie_id}/`);
+        const movie_ids = await fetchDataFromDjangoAuthenticated(`/movies/recommend-movie/${movie_id}/`);
         // console.log(movie_ids.message);
         if(movie_ids.name === "AxiosError"){
             return;
+        }
+        if(movie_ids.length == 0){
+            return [];
         }
         const promises = movie_ids.map(async (item) => {
             const movie_data = await fetchDataFromApi(`/movie/${item.movie_id}`);

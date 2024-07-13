@@ -10,6 +10,7 @@ import "./style.scss";
  
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import logo from "../../assets/movix-logo.svg";
+import { isSubscribed } from "../../utils/api";
 
 
 const Header = ({ logout, isAuthenticated }) => {
@@ -20,6 +21,20 @@ const Header = ({ logout, isAuthenticated }) => {
     const [showSearch, setShowSearch] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
+    const [subscribed, setSubscribed] = useState(null);
+
+    useEffect(() => {
+      const checkSubscription = async () => {
+          const { is_subscribed } = await isSubscribed();
+          if(is_subscribed === true){
+            console.log(is_subscribed);
+            setSubscribed(true);
+          }
+
+      }
+      checkSubscription();
+      // console.log(is_subscribed);
+    }, [location.pathname])
 
     const guestLinks = () => (
       <Fragment>
@@ -30,6 +45,9 @@ const Header = ({ logout, isAuthenticated }) => {
 
     const authLinks = () => (
       <Fragment>
+        {subscribed && (
+          <li className="menuItem" onClick={() => navigationHandler("foryou")}>For You</li>
+        )}
         <li className="menuItem" onClick={() => navigationHandler("history")}>History</li>
         <li className="menuItem" onClick={() => navigationHandler("logout")}>Logout</li>
 
@@ -80,7 +98,10 @@ const Header = ({ logout, isAuthenticated }) => {
     };
 
     const navigationHandler = (type) => {
-      if(type === "movie"){
+      if(type === "subscribe"){
+        navigate("/subscribe");
+      } 
+      else if(type === "movie"){
         navigate("/explore/movie");
       } 
       else if(type === "tv"){
@@ -95,7 +116,11 @@ const Header = ({ logout, isAuthenticated }) => {
       else if(type === "history"){
         navigate("/history");
       }
+      else if(type === "foryou"){
+        navigate("/for-you");
+      }
       else{
+        setSubscribed(false);
         logout();
         navigate("/");
       }
@@ -106,8 +131,24 @@ const Header = ({ logout, isAuthenticated }) => {
           <ContentWrapper>
             <div className="logo" onClick={() => navigate("/")}>
               < img src={logo} alt=""/>
+              {subscribed && (
+                <button class="pro_btn">
+                </button>
+              )}
             </div>
             <ul className="menuItems">
+              {!subscribed && (
+                <li className="menuItem" onClick={() => navigationHandler("subscribe")}>
+                  <button className="button">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 24">
+                      <path d="m18 0 8 12 10-8-4 20H4L0 4l10 8 8-12z"></path>
+                    </svg>
+                  Unlock Pro
+                  </button>
+
+                </li>
+
+              )}
               <li className="menuItem" onClick={() => navigationHandler("movie")}>Movies</li>
               <li className="menuItem" onClick={() => navigationHandler("tv")}>TV Shows</li>
               {isAuthenticated ? authLinks() : guestLinks()}

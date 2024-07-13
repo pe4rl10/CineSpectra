@@ -20,6 +20,28 @@ export const fetchDataFromApi = async (url, params) => {
     }
 }
 
+export const fetchDataFromDjangoAuthenticated = async (url) => {
+    if(localStorage.getItem('access')){
+        const config = {
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `JWT ${localStorage.getItem('access')}`,
+                'Accept' : 'application/json'
+            }
+        };
+
+        try {
+            const { data } = await axios.get(DJANGO_API_URL + url, config);
+            return data
+        }
+
+        catch (error) {
+            console.error("Movie not found in ML Dataset");
+            return error;
+        }
+    }
+}
+
 export const fetchDataFromDjango = async (url) => {
     try {
         const { data } = await axios.get(DJANGO_API_URL + url);
@@ -61,5 +83,29 @@ export const postDataIntoDjango = async (url, body) => {
                 console.error("Error setting up request:", err.message);
             }
         }   
+    }
+}
+
+export const isSubscribed = async () => {
+    const response = await fetchDataFromDjangoAuthenticated('/razorpay/user/is_subscribed/');
+    return response;
+}
+
+export const deleteFromDjango = async (url) => {
+    if(localStorage.getItem('access')){
+        const config = {
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `JWT ${localStorage.getItem('access')}`,
+                'Accept' : 'application/json'
+            }
+        };
+
+        try {
+            const res = await axios.delete(DJANGO_API_URL + url, config);
+            console.log(res);
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 }

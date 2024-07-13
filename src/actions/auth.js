@@ -104,8 +104,10 @@ export const login = (email, password) => async dispatch => {
 
         dispatch(load_user());
     } catch (err) {
+        console.log("login failed action");
         dispatch({
-            type: LOGIN_FAIL
+            type: LOGIN_FAIL,
+            payload: "Invalid credentials. Please try again." // Set error message
         })
     }
 };

@@ -16,7 +16,7 @@ import Genres from "../genres/Genres";
 import "./style.scss";
 
 const Carousel = ({data, loading, endpoint, title}) => {
-    // console.log(data);
+    console.log(data);
     const carouselContainer = useRef();
     const {url} = useSelector((state) => state.home.homeSlice);
     const navigate = useNavigate();
@@ -72,8 +72,7 @@ const Carousel = ({data, loading, endpoint, title}) => {
                                 className="carouselItem" onClick={() => navigate(`/${item.media_type || endpoint}/${item.id}`)}>
                                     <div className="posterBlock">
                                         <Img src={posterUrl}/>
-                                        <CircleRating 
-                                        rating={item.vote_average.toFixed(1)}/>
+                                        <CircleRating rating={item.vote_average ? item.vote_average.toFixed(1) : "N/A"}/>
                                         <Genres data={item.genre_ids?.slice(0, 2)}/>
                                     </div>
                                     <div className="textBlock">

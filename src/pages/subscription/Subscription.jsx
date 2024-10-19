@@ -99,7 +99,7 @@ const Subscription = () => {
     }
     
     const complete_payment = (payment_id, order_id, signature) => {
-        axios.post(DJANGO_API_URL + 'razorpay/order/complete/', {
+        axios.post(DJANGO_API_URL + '/razorpay/order/complete/', {
             "payment_id": payment_id,
             "order_id": order_id,
             "signature": signature,

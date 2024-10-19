@@ -41,7 +41,7 @@ const Subscription = () => {
     }
 
     const razorpayPayment = () => {
-        axios.post(DJANGO_API_URL + 'razorpay/order/create/', {
+        axios.post(DJANGO_API_URL + '/razorpay/order/create/', {
                 "amount": amount,
                 "currency": "INR"
             }, config)
